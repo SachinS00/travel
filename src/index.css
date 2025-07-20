@@ -1,3 +1,106 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@page {
+  margin: 0;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.pdf-container {
+  width: 210mm;
+  background-color: white;
+}
+
+.pdf-page {
+  position: relative;
+  page-break-after: always;
+  width: 210mm;
+  min-height: 297mm;
+  padding-bottom: 70px; 
+  overflow: hidden;
+}
+
+.pdf-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #e5e7eb;
+  background-color: white;
+  page-break-inside: avoid;
+  padding: 12px 24px;
+}
+
+
+.timeline-dot {
+  position: absolute;
+  left: 6px;
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  border: 2px solid #3b82f6;
+  border-radius: 50%;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 11px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #93c5fd;
+}
+
+
+.gradient-header {
+  background: linear-gradient(to right, #56a3ff, #7b68ee);
+  color: white;
+  padding: 24px;
+  text-align: center;
+  border-radius: 12px;
+}
+
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  background-color: #291F5D;
+  color: white;
+  text-align: left;
+  padding: 10px 16px;
+  font-weight: 600;
+}
+
+.data-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #F5F0FA;
+}
+
+
+.text-purple {
+  color: #9333EA;
+}
+
+.text-dark-purple {
+  color: #291F5D;
+}
+
+
+@media print {
+  .pdf-footer {
+    position: fixed;
+    bottom: 0;
+  }
+}

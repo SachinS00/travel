@@ -6,7 +6,7 @@ import Preview from './pages/Preview'
 import Footer from './components/common/Footer'
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('form') // 'form' or 'preview'
+  const [currentPage, setCurrentPage] = useState('form')
   const [formData, setFormData] = useState(null)
 
   const navigateToPreview = (data) => {
