@@ -5,45 +5,76 @@ import HotelBookings from './HotelBookings';
 import ActivityTable from './ActivityTable';
 import PaymentPlan from './PaymentPlan';
 import Footer from './Footer';
+import FlightSummary from './FlightSummary';
+import Notes from './Notes';
+import ServiceScope from './ServiceScope';
+import InclusionSummary from './InclusionSummary';
 
 const PDFTemplate = ({ formData }) => {
   return (
-    <div id="pdf-content" className="bg-white">
-      {/* Cover Page */}
-      <CoverPage formData={formData} />
-      <Footer />
+    <div id="pdf-content" className="pdf-container">
+      
+      <div className="pdf-page">
+        <CoverPage formData={formData} />
+        <Footer />
+      </div>
 
-      {/* Day Pages */}
+      
       {formData.days && formData.days.map((day, index) => (
-        <div key={index} className="page-break">
+        <div key={index} className="pdf-page">
           <DayPage day={day} dayNumber={index + 1} />
           <Footer />
         </div>
       ))}
-
-      {/* Hotel Bookings Page */}
-      {formData.hotels && formData.hotels.length > 0 && (
-        <div className="page-break">
+      
+      
+      <div className="pdf-page">
+        <div className="p-6">
+          <FlightSummary flights={formData.flights} />
+        </div>
+        <Footer />
+      </div>
+      
+      
+      <div className="pdf-page">
+        <div className="p-6">
           <HotelBookings hotels={formData.hotels} />
-          <Footer />
         </div>
-      )}
-
-      {/* Activity Table Page */}
-      {formData.activities && formData.activities.length > 0 && (
-        <div className="page-break">
+        <Footer />
+      </div>
+      
+      
+      <div className="pdf-page">
+        <div className="p-6">
           <ActivityTable activities={formData.activities} />
-          <Footer />
         </div>
-      )}
-
-      {/* Payment Plan Page */}
-      {formData.paymentPlan && (
-        <div className="page-break">
+        <Footer />
+      </div>
+      
+      
+      <div className="pdf-page">
+        <div className="p-6">
           <PaymentPlan paymentPlan={formData.paymentPlan} />
-          <Footer />
         </div>
-      )}
+        <Footer />
+      </div>
+      
+     
+      <div className="pdf-page">
+        <div className="p-6">
+          <Notes />
+        </div>
+        <Footer />
+      </div>
+      
+      
+      <div className="pdf-page">
+        <div className="p-6">
+          <ServiceScope />
+          <InclusionSummary inclusions={formData.inclusions} />
+        </div>
+        <Footer />
+      </div>
     </div>
   );
 };

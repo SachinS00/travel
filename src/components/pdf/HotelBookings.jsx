@@ -5,7 +5,7 @@ const HotelBookings = ({ hotels }) => {
     <div className="pdf-page bg-white w-full min-h-screen p-6">
       <h2 className="text-2xl font-bold text-[#9333EA] mb-6">Hotel Bookings</h2>
 
-      {/* Hotels Table */}
+      
       <div className="overflow-hidden border border-gray-300 rounded-lg mb-8">
         <table className="w-full">
           <thead>
@@ -31,7 +31,7 @@ const HotelBookings = ({ hotels }) => {
         </table>
       </div>
 
-      {/* Hotel Notes */}
+      
       <div className="space-y-2">
         <div className="text-sm">
           <span className="font-semibold">1.</span> All Hotels Are Tentative And Can Be Replaced With Similar.
