@@ -3,7 +3,7 @@ import { generateItineraryPDF } from '../utils/pdfGenerator';
 import PDFTemplate from '../components/pdf/PDFTemplate';
 
 const Preview = ({ formData, onBack }) => {
-  // Default sample data if no form data is provided
+  // Default sample data 
   const defaultData = {
     title: 'Singapore Itinerary',
     travelerName: 'Rahul',

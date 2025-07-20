@@ -9,13 +9,13 @@ export const generateItineraryPDF = (formData) => {
   }
 
   const options = {
-    margin: 0,
+    margin: [8, 0, 0, 0],
     filename: `${formData.title || 'Travel_Itinerary'}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
+    image: { type: 'jpeg', quality: 1 },
     html2canvas: {
       scale: 2,
       useCORS: true,
-      logging: false,
+      logging: true,
       allowTaint: true
     },
     jsPDF: {
@@ -23,10 +23,10 @@ export const generateItineraryPDF = (formData) => {
       format: 'a4',
       orientation: 'portrait'
     },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    pagebreak: { mode: 'css', before: '.pdf-page', avoid: '.pdf-footer' }
   };
 
-  // Generate and download PDF
+  
   html2pdf()
     .from(element)
     .set(options)
@@ -35,4 +35,3 @@ export const generateItineraryPDF = (formData) => {
       console.error('Error generating PDF:', error);
     });
 };
-
