@@ -1,37 +1,37 @@
 import html2pdf from 'html2pdf.js';
 
 export const generateItineraryPDF = (formData) => {
-  const element = document.getElementById('pdf-content');
-
-  if (!element) {
-    console.error('PDF content element not found');
+  const pages = document.querySelectorAll('.pdf-page');
+  if (!pages.length) {
+    console.error('No elements with class "pdf-page" found.');
     return;
   }
 
   const options = {
-    margin: [8, 0, 0, 0],
+    margin: 0,
     filename: `${formData.title || 'Travel_Itinerary'}.pdf`,
-    image: { type: 'jpeg', quality: 1 },
-    html2canvas: {
-      scale: 2,
-      useCORS: true,
-      logging: true,
-      allowTaint: true
-    },
-    jsPDF: {
-      unit: 'mm',
-      format: 'a4',
-      orientation: 'portrait'
-    },
-    pagebreak: { mode: 'css', before: '.pdf-page', avoid: '.pdf-footer' }
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['css', 'legacy'] }
   };
 
-  
-  html2pdf()
-    .from(element)
-    .set(options)
-    .save()
-    .catch(error => {
-      console.error('Error generating PDF:', error);
+  // Start with the first page
+  let worker = html2pdf().set(options).from(pages[0]);
+
+  // Add the rest as new pages
+  for (let i = 1; i < pages.length; i++) {
+    worker = worker.toContainer().from(pages[i]).toCanvas().toImg().toPdf().get('pdf').then(pdf => {
+      pdf.addPage();
+    });
+  }
+
+  // Save the PDF
+  worker.save()
+    .then(() => {
+      console.log('PDF successfully generated and saved.');
+    })
+    .catch(err => {
+      console.error('PDF generation failed:', err);
     });
 };
