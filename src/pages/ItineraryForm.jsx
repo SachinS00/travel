@@ -2,103 +2,41 @@ import { useState, useEffect } from 'react';
 import { generateItineraryPDF } from '../utils/pdfGenerator';
 
 const ItineraryForm = ({ onPreview }) => {
+  const [formData, setFormData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({
-    // Basic Info
-    title: 'Singapore Itinerary',
-    travelerName: 'Rahul',
-    destination: 'Singapore',
-    departureFrom: 'Delhi',
-    departureDate: '2025-06-09',
-    arrivalDate: '2025-06-15',
-    numberOfDays: 6,
-    numberOfNights: 5,
-    numberOfTravelers: 4,
 
-    // Days
-    days: [
-      {
-        date: '2025-06-09',
-        title: 'Arrival in Singapore & City Exploration',
-        morning: ['Arrive In Singapore. Transfer From Airport To Hotel.'],
-        afternoon: [
-          'Check Into Your Hotel.',
-          'Visit Marina Bay Sands Sky Park (2-3 Hours).',
-          'Optional: Stroll Along Marina Bay Waterfront Promenade Or Helix Bridge.'
-        ],
-        evening: ['Explore Gardens By The Bay, Including Super Tree Grove (3-4 Hours)'],
-        image: null
-      }
-    ],
+  useEffect(() => {
+    fetch('http://localhost:3001/api/itinerary')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setFormData(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching itinerary data:', error);
+        setError(error.message);
+        setLoading(false);
+      });
+  }, []);
 
-    // Hotels
-    hotels: [
-      {
-        city: 'Singapore',
-        hotelName: 'Super Townhouse Oak Vashi Formerly Blue Diamond',
-        checkIn: '2025-06-09',
-        checkOut: '2025-06-15',
-        nights: 5
-      }
-    ],
+  if (loading) {
+    return <div className="text-center p-8">Loading...</div>;
+  }
 
-    // Activities
-    activities: [
-      {
-        city: 'Singapore',
-        name: 'Marina Bay Sands Sky Park',
-        type: 'Nature/Sightseeing',
-        duration: '2-3 Hours'
-      },
-      {
-        city: 'Singapore',
-        name: 'Gardens By The Bay',
-        type: 'Nature/Sightseeing',
-        duration: '3-4 Hours'
-      }
-    ],
+  if (error) {
+    return <div className="text-center p-8 text-red-500">Error: {error}</div>;
+  }
 
-    // Payment Plan
-    paymentPlan: {
-      totalAmount: '₹ 9,00,000 For 3 Pax (Inclusive Of GST)',
-      tcs: 'Not Collected',
-      installments: [
-        { name: 'Installment 1', amount: '₹3,50,000', dueDate: 'Initial Payment' },
-        { name: 'Installment 2', amount: '₹4,00,000', dueDate: 'Post Visa Approval' },
-        { name: 'Installment 3', amount: 'Remaining', dueDate: '20 Days Before Departure' }
-      ],
-      visa: {
-        type: 'Tourist',
-        validity: '30 Days',
-        processingDate: '14/06/2025'
-      }
-    },
-
-    // Inclusion Summary
-    inclusions: [
-      { category: 'Flight', count: 2, details: 'All Flights Mentioned', status: 'Awaiting Confirmation' },
-      { category: 'Tourist Tax', count: 2, details: 'Yotel (Singapore), Oakwood (Sydney), Mercure (Cairns), Novotel (Gold Coast), Holiday inn (Melbourne)', status: 'Awaiting Confirmation' },
-      { category: 'Hotel', count: 5, details: 'Airport To Hotel - Hotel To Attractions - Day Trips If Any', status: 'Included' }
-    ],
-
-    // Services
-    services: [
-      { service: 'Flight Tickets And Hotel Vouchers', details: 'Delivered 3 Days Post Full Payment' },
-      { service: 'Web Check-in', details: 'Boarding Pass Delivery Via Email/WhatsApp' },
-      { service: 'Support', details: 'Chat Support - Response Time: 4 Hours' },
-      { service: 'Cancellation Support', details: 'Provided' },
-      { service: 'Trip Support', details: 'Response Time: 5 Minutes' }
-    ],
-
-    // Important Notes
-    notes: [
-      { point: 'Airlines Standard Policy', details: 'In Case Of Visa Rejection, Visa Fees Or Any Other Non Cancelable Component Cannot Be Reimbursed At Any Cost.' },
-      { point: 'Flight/Hotel Cancellation', details: 'In Case Of Visa Rejection, Visa Fees Or Any Other Non Cancelable Component Cannot Be Reimbursed At Any Cost.' },
-      { point: 'Trip Insurance', details: 'In Case Of Visa Rejection, Visa Fees Or Any Other Non Cancelable Component Cannot Be Reimbursed At Any Cost.' },
-      { point: 'Hotel Check-In & Check Out', details: 'In Case Of Visa Rejection, Visa Fees Or Any Other Non Cancelable Component Cannot Be Reimbursed At Any Cost.' },
-      { point: 'Visa Rejection', details: 'In Case Of Visa Rejection, Visa Fees Or Any Other Non Cancelable Component Cannot Be Reimbursed At Any Cost.' }
-    ]
-  });
+  if (!formData) {
+    return null;
+  }
 
   const totalSteps = 6;
 
