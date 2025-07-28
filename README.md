@@ -12,7 +12,7 @@ Vigovia is a React-based web application to view and download travel itineraries
 1. **Clone the repository**
 
    ```bash
-   git clone
+   git clone https://github.com/SachinS00/travel.git
    ```
 
 2. **Install frontend dependencies**
@@ -36,7 +36,7 @@ Vigovia is a React-based web application to view and download travel itineraries
 
      ```bash
      cd backend
-     npm start
+     node server.js
      ```
 
      The backend runs at `http://localhost:3001`.
