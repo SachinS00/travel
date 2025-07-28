@@ -16,16 +16,31 @@ body {
   background-color: white;
 }
 
-.pdf-page {
+/* .pdf-page {
   position: relative;
   page-break-after: always;
   width: 210mm;
   min-height: 297mm;
   padding-bottom: 70px; 
   overflow: hidden;
+} */
+
+.pdf-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 297mm;
+  width: 210mm;
+  margin: 0 auto;
+  background: white;
+  /* Remove: position: relative; */
+  /* Remove: page-break-after: always; if you want to control breaks manually */
 }
 
-.pdf-footer {
+.pdf-content{
+  flex: 1 0 auto;
+}
+
+/* .pdf-footer {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -34,8 +49,16 @@ body {
   background-color: white;
   page-break-inside: avoid;
   padding: 12px 24px;
-}
+} */
 
+.pdf-footer {
+  flex-shrink: 0;
+  margin-top: 32px;
+  /* Remove: position: absolute; bottom: 0; left: 0; right: 0; */
+  border-top: 1px solid #e5e7eb;
+  background-color: white;
+  padding: 12px 24px;
+}
 
 .timeline-dot {
   position: absolute;
